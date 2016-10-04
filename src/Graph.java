@@ -1,5 +1,6 @@
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,14 +8,13 @@ import java.util.List;
  * Created by student on 04.10.2016.
  */
 
-public class Vertex {
 
-    private int id;
+@XmlRootElement
+public class Graph {
+
 
     @XmlElements({
-        @XmlElement(name="edge", type=Edge.class)
+        @XmlElement(name="vertex", type=Vertex.class)
     })
-    private List<Edge> edges = new ArrayList<>();
-
-
+    private List<Vertex> vertexes = new ArrayList<>();
 }

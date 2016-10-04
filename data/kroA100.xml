@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<travellingSalesmanProblemInstance>
-
-  <name>kroA100</name>
-
-  <source>TSPLIB</source>
-
-  <description>100-city problem A (Krolak/Felts/Nelson)</description>
-
-  <doublePrecision>15</doublePrecision>
-
-  <ignoredDigits>5</ignoredDigits>
 
   <graph>
     <vertex>
@@ -10114,4 +10103,3 @@
     </vertex>
   </graph>
 
-</travellingSalesmanProblemInstance>
