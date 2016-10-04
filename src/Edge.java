@@ -2,6 +2,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Created by student on 04.10.2016.
@@ -11,7 +12,8 @@ import javax.xml.bind.annotation.XmlValue;
 public class Edge {
 
     @XmlAttribute
-    private double cost;
+    @XmlJavaTypeAdapter(Marshaller.class)
+    private Integer cost;
 
     @XmlValue
     private int nodeId;
