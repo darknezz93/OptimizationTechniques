@@ -1,3 +1,5 @@
+package application;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -16,5 +18,14 @@ public class Edge {
     private Integer cost;
 
     @XmlValue
-    private int nodeId;
+    private int vertexId;
+
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public int getVertexId() {
+        return vertexId;
+    }
 }

@@ -1,3 +1,7 @@
+package application;
+
+import application.Edge;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import java.util.ArrayList;
@@ -12,9 +16,11 @@ public class Vertex {
     private int id;
 
     @XmlElements({
-        @XmlElement(name="edge", type=Edge.class)
+        @XmlElement(name="edge", type= Edge.class)
     })
     private List<Edge> edges = new ArrayList<>();
 
-
+    public List<Edge> getEdges() {
+        return edges;
+    }
 }

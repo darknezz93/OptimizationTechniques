@@ -1,3 +1,5 @@
+package application;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
