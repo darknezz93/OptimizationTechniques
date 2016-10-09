@@ -1,5 +1,6 @@
 package application;
 
+import algorithms.GraspGreedyCycle;
 import algorithms.GraspNN;
 import algorithms.GreedyCycle;
 import algorithms.NearestNeighbour;
@@ -51,6 +52,18 @@ public class Main {
 
         System.out.print("Path: ");
         for(Integer node : gc.getResult().getBestSolution()) {
+            System.out.print(node + ", ");
+        }
+
+        GraspGreedyCycle graspGreedyCycle = new GraspGreedyCycle(graph);
+        graspGreedyCycle.execute();
+        System.out.println("\n\nGraspGreedyCycle: ");
+        System.out.println("Min: " + graspGreedyCycle.getResult().getMinValue());
+        System.out.println("Max: " + graspGreedyCycle.getResult().getMaxValue());
+        System.out.println("Avg: " + graspGreedyCycle.getResult().getAvgValue());
+
+        System.out.print("Path: ");
+        for(Integer node : graspGreedyCycle.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
 
