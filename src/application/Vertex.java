@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Vertex {
 
-    private int id;
 
     @XmlElements({
         @XmlElement(name="edge", type= Edge.class)
