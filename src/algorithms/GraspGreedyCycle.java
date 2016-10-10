@@ -107,14 +107,6 @@ public class GraspGreedyCycle {
 
     }
 
-    public boolean checkIfNotContainsCost(List<Integer> solution) {
-        for(List<Integer> list : top3Solutions) {
-            if(list.get(3) == solution.get(3)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     public List<Integer> getWorstPosition() {
         List<Integer> worst = top3Solutions.get(0);
@@ -147,9 +139,6 @@ public class GraspGreedyCycle {
             visitedVertexesIds.add(firstEdge.getVertexId());
             visitedVertexesIds.add(graphVertexes.indexOf(vertex));
 
-            if(graphVertexes.indexOf(vertex) == 61) {
-                System.out.println();
-            }
 
             while(visitedVertexesIds.size() <= 50) {
 
@@ -158,7 +147,7 @@ public class GraspGreedyCycle {
                 top3Solutions = new ArrayList<>();
 
                 //szukanie nowego wierzchoka
-                for(int i = 1; i < visitedVertexesIds.size()-1; i++) {
+                for(int i = 1; i < visitedVertexesIds.size(); i++) {
                     for(Integer newVertex : notVisited) {
                         bestSolution = new ArrayList<>();
                         Integer cost = getTotalConnectionCost(visitedVertexesIds.get(i-1), visitedVertexesIds.get(i), newVertex);

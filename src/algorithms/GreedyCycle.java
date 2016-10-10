@@ -101,10 +101,6 @@ public class GreedyCycle {
             visitedVertexesIds.add(firstEdge.getVertexId());
             visitedVertexesIds.add(graphVertexes.indexOf(vertex));
 
-            if(graphVertexes.indexOf(vertex) == 61) {
-                System.out.println();
-            }
-
             while(visitedVertexesIds.size() <= 50) {
 
                 List<Integer> notVisited = retrieveNotVisited(vertex, visitedVertexesIds);
@@ -112,7 +108,7 @@ public class GreedyCycle {
                 Integer bestValue = 0;
 
                 //szukanie nowego wierzchoka
-                for(int i = 1; i < visitedVertexesIds.size()-1; i++) {
+                for(int i = 1; i < visitedVertexesIds.size(); i++) {
                     for(Integer newVertex : notVisited) {
 
                         Integer cost = getTotalConnectionCost(visitedVertexesIds.get(i-1), visitedVertexesIds.get(i), newVertex);
