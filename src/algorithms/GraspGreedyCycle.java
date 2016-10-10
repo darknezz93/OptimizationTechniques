@@ -94,12 +94,12 @@ public class GraspGreedyCycle {
 
     public void addToBestSolutions(List<Integer> bestSolution) {
         if(top3Solutions.size() < 3) {
-            if(!top3Solutions.contains(bestSolution)) {
+            if(!top3Solutions.containsAll(bestSolution)) {
                 top3Solutions.add(bestSolution);
             }
         } else {
-            List<Integer> worst = getWorstPosition(top3Solutions);
-            if(worst.get(3) > bestSolution.get(3)) {
+            List<Integer> worst = getWorstPosition();
+            if(!top3Solutions.containsAll(bestSolution) && bestSolution.get(3) < worst.get(3)) {
                 int index = top3Solutions.indexOf(worst);
                 top3Solutions.set(index, bestSolution);
             }
@@ -107,9 +107,18 @@ public class GraspGreedyCycle {
 
     }
 
-    public List<Integer> getWorstPosition(List<List<Integer>> list) {
-        List<Integer> worst = list.get(0);
-        for(List<Integer> li : list) {
+    public boolean checkIfNotContainsCost(List<Integer> solution) {
+        for(List<Integer> list : top3Solutions) {
+            if(list.get(3) == solution.get(3)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<Integer> getWorstPosition() {
+        List<Integer> worst = top3Solutions.get(0);
+        for(List<Integer> li : top3Solutions) {
             if(li.get(3) > worst.get(3)) {
                 worst = li;
             }
@@ -127,7 +136,8 @@ public class GraspGreedyCycle {
 
         for(Vertex vertex : graphVertexes) {
             pathCost = 0;
-            top3Solutions.clear();
+            //top3Solutions.clear();
+            top3Solutions = new ArrayList<>();
             List<Integer> visitedVertexesIds = new ArrayList<>();
             visitedVertexesIds.add(graphVertexes.indexOf(vertex));
             Edge firstEdge = findMinCostEdge(vertex.getEdges());
@@ -144,16 +154,14 @@ public class GraspGreedyCycle {
             while(visitedVertexesIds.size() <= 50) {
 
                 List<Integer> notVisited = retrieveNotVisited(vertex, visitedVertexesIds);
-                List<Integer> bestSolution = new ArrayList<>(4); //vertex1, vertex2, newVertex;
-                Integer bestValue = 0;
+                List<Integer> bestSolution = new ArrayList<>(); //vertex1, vertex2, newVertex;
+                top3Solutions = new ArrayList<>();
 
                 //szukanie nowego wierzchoka
                 for(int i = 1; i < visitedVertexesIds.size()-1; i++) {
                     for(Integer newVertex : notVisited) {
-
+                        bestSolution = new ArrayList<>();
                         Integer cost = getTotalConnectionCost(visitedVertexesIds.get(i-1), visitedVertexesIds.get(i), newVertex);
-                        //if(bestValue == 0 || cost < bestValue) {
-                            bestValue = cost;
                             if(bestSolution.size() > 0 ) {
                                 bestSolution.set(0, visitedVertexesIds.get(i-1));
                                 bestSolution.set(1, visitedVertexesIds.get(i));
@@ -165,13 +173,11 @@ public class GraspGreedyCycle {
                                 bestSolution.add(2, newVertex);
                                 bestSolution.add(3, cost);
                             }
-                            addToBestSolutions(bestSolution);
-                      //  }
+                        addToBestSolutions(bestSolution);
                     }
                 }
-                pathCost += bestValue;
-
                 List<Integer> selectedFromTop3 = selectSolution();
+                pathCost += selectedFromTop3.get(3);
                 visitedVertexesIds = updateVisitedVertexes(visitedVertexesIds, selectedFromTop3);
             }
 

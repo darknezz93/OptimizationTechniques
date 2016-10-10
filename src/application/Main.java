@@ -18,7 +18,7 @@ public class Main {
         AlgorithmService as = new AlgorithmService();
         Graph graph = as.getGraphFromFile("data" + File.separator + "kroA100.xml");
 
-        NearestNeighbour nn = new NearestNeighbour(graph);
+       /* NearestNeighbour nn = new NearestNeighbour(graph);
         nn.execute();
         System.out.println("NN: ");
         System.out.println("Min: " + nn.getResult().getMinValue());
@@ -53,7 +53,7 @@ public class Main {
         System.out.print("Path: ");
         for(Integer node : gc.getResult().getBestSolution()) {
             System.out.print(node + ", ");
-        }
+        } */
 
         GraspGreedyCycle graspGreedyCycle = new GraspGreedyCycle(graph);
         graspGreedyCycle.execute();
