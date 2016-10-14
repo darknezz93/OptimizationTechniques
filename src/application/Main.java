@@ -1,9 +1,6 @@
 package application;
 
-import algorithms.GraspGreedyCycle;
-import algorithms.GraspNN;
-import algorithms.GreedyCycle;
-import algorithms.NearestNeighbour;
+import algorithms.*;
 import application.AlgorithmService;
 
 import javax.xml.bind.JAXBException;
@@ -27,6 +24,18 @@ public class Main {
 
         System.out.print("Path: ");
         for(Integer node : nn.getResult().getBestSolution()) {
+            System.out.print(node + ", ");
+        }
+
+        NearestNeighbourRandom nnRandom = new NearestNeighbourRandom(graph);
+        nnRandom.execute();
+        System.out.println("\n\nNN_Random: ");
+        System.out.println("Min: " + nnRandom.getResult().getMinValue());
+        System.out.println("Max: " + nnRandom.getResult().getMaxValue());
+        System.out.println("Avg: " + nnRandom.getResult().getAvgValue());
+
+        System.out.print("Path: ");
+        for(Integer node : nnRandom.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
 
