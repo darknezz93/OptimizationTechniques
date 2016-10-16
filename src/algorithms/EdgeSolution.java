@@ -32,23 +32,27 @@ public class EdgeSolution {
         for (int i = 0; i < input.size() - 1; i++) {
             Integer firstEdgeCost = getEdgeCost(input.get(i), input.get(i + 1));
             for (int j = 0; j < input.size() - 1; j++) {
-                if (j == i) {
+                try {
+                    Integer secondEdgeCost = getEdgeCost(input.get(j), input.get(j + 1));
+                    Integer newFirstEdgeCost = getEdgeCost(input.get(i), input.get(j + 1));
+                    Integer newSecondEdgeCost = getEdgeCost(input.get(j), input.get(i + 1));
+                    if (firstEdgeCost + secondEdgeCost > newFirstEdgeCost + newSecondEdgeCost) {
+                        int gain = firstEdgeCost + secondEdgeCost - (newFirstEdgeCost + newSecondEdgeCost);
+                        if (gain > maxGain) {
+                            maxGain = gain;
+                            firstEdge = i;
+                            secondEdge = j;
+                        }
+                    }
+                } catch (NullPointerException e) {
                     continue;
-                }
-                Integer secondEdgeCost = getEdgeCost(input.get(j), input.get(j + 1));
-                Integer newFirstEdgeCost = getEdgeCost(input.get(i), input.get(j + 1));
-                Integer newSecondEdgeCost = getEdgeCost(input.get(j), input.get(i + 1));
-                if (firstEdgeCost + secondEdgeCost < newFirstEdgeCost + newSecondEdgeCost) {
-                    maxGain = newFirstEdgeCost + newSecondEdgeCost - (firstEdgeCost + secondEdgeCost);
-                    firstEdge = i;
-                    secondEdge = j;
                 }
             }
         }
     }
 
     private Integer getEdgeCost(int vertexId1, int vertexId2) {
-        return graph.getVertexes().get(vertexId1).getEdges().get(vertexId2).getCost();
+        return graph.getVertexes().get(vertexId1).findEdgeById(vertexId2).getCost();
     }
 
     public int getMaxGain() {
