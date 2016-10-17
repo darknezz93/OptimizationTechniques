@@ -1,9 +1,6 @@
 package algorithms;
 
-import application.Edge;
-import application.Graph;
-import application.Result;
-import application.Vertex;
+import application.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +12,15 @@ import java.util.Random;
 public class NearestNeighbourRandom {
 
     private Result result;
+    private ResultLocalSearch resultLocalSearch;
     private List<Vertex> graphVertexes = new ArrayList<>();
     private Integer pathCost = 0;
+    private Integer localSearchPatchCost = 0;
 
 
     public NearestNeighbourRandom(Graph graph) {
         result = new Result();
+        resultLocalSearch = new ResultLocalSearch();
         graphVertexes = graph.getVertexes();
     }
 
@@ -40,6 +40,16 @@ public class NearestNeighbourRandom {
             }
         }
         return notVisited;
+    }
+
+    private void fillResultLocalSearch(List<Integer> visitedVertexesIds) {
+        if(resultLocalSearch.getMinValue() == 0 || resultLocalSearch.getMinValue() > localSearchPatchCost) {
+            resultLocalSearch.setMinValue(localSearchPatchCost);
+            resultLocalSearch.setBestSolution(visitedVertexesIds);
+        } else if(resultLocalSearch.getMaxValue() < localSearchPatchCost) {
+            resultLocalSearch.setMaxValue(localSearchPatchCost);
+        }
+        resultLocalSearch.addToAvgValue(localSearchPatchCost);
     }
 
     private void fillResult(List<Integer> visitedVertexesIds) {
