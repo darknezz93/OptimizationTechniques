@@ -8,18 +8,18 @@ import java.util.List;
 /**
  * Created by Kamil on 2016-10-16.
  */
-public class LocalSearchVertex {
+public class VertexSwaping {
 
     private final List<Integer> unusedVertices;
     private Graph graph;
     private List<Integer> input;
 
-    private int maxGain = 0;
-    private int firstEdge;
-    private int secondEdge;
+    private int maxGain;
+    private int sourceVertexIndex;
+    private int newVertexIndex;
 
 
-    public LocalSearchVertex(Graph graph, List<Integer> input) {
+    public VertexSwaping(Graph graph, List<Integer> input) {
         this.graph = graph;
         this.input = input;
         this.unusedVertices = createUnusedVerticesList(input);
@@ -51,8 +51,8 @@ public class LocalSearchVertex {
                     int gain = leftEdgeCost + rightEdgeCost - (newLeftEdgeCost + newRightEdgeCost);
                     if (gain > maxGain) {
                         maxGain = gain;
-                        firstEdge = i;
-                        secondEdge = j;
+                        sourceVertexIndex = i;
+                        newVertexIndex = j;
                     }
                 }
             }
@@ -65,5 +65,20 @@ public class LocalSearchVertex {
 
     public int getMaxGain() {
         return maxGain;
+    }
+
+    public void applyResult(List<Integer> vertices) {
+        if (sourceVertexIndex == 0 || sourceVertexIndex == vertices.size() - 1) {
+            vertices.set(0, unusedVertices.get(newVertexIndex));
+            vertices.set(vertices.size() - 1, unusedVertices.get(newVertexIndex));
+        } else {
+            vertices.set(sourceVertexIndex, unusedVertices.get(newVertexIndex));
+        }
+    }
+
+    public void clearResult() {
+        maxGain = 0;
+        newVertexIndex = 0;
+        sourceVertexIndex = 0;
     }
 }
