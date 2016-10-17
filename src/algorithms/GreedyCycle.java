@@ -12,15 +12,12 @@ public class GreedyCycle {
 
     private List<Vertex> graphVertexes = new ArrayList<>();
     private Result result;
-    private ResultLocalSearch resultLocalSearch;
     private Integer pathCost = 0;
-    private Integer localSearchPatchCost = 0;
 
 
     public GreedyCycle(Graph graph) {
         graphVertexes = graph.getVertexes();
         result = new Result();
-        resultLocalSearch = new ResultLocalSearch();
     }
 
     private Edge findMinCostEdge(List<Edge> edges) {
@@ -74,16 +71,6 @@ public class GreedyCycle {
         return visitedVertexesIds;
     }
 
-    private void fillResultLocalSearch(List<Integer> visitedVertexesIds) {
-        if(resultLocalSearch.getMinValue() == 0 || resultLocalSearch.getMinValue() > localSearchPatchCost) {
-            resultLocalSearch.setMinValue(localSearchPatchCost);
-            resultLocalSearch.setBestSolution(visitedVertexesIds);
-        } else if(resultLocalSearch.getMaxValue() < localSearchPatchCost) {
-            resultLocalSearch.setMaxValue(localSearchPatchCost);
-        }
-        resultLocalSearch.addToAvgValue(localSearchPatchCost);
-    }
-
     private void fillResult(List<Integer> visitedVertexesIds) {
         if(result.getMinValue() == 0 || result.getMinValue() > pathCost) {
             result.setMinValue(pathCost);
@@ -92,6 +79,8 @@ public class GreedyCycle {
             result.setMaxValue(pathCost);
         }
         result.addToAvgValue(pathCost);
+        result.addToAllSolutions(visitedVertexesIds);
+        result.addToAllPathsCosts(pathCost);
     }
 
 

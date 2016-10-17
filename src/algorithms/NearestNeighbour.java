@@ -11,15 +11,12 @@ import java.util.List;
 public class NearestNeighbour {
 
     private Result result;
-    private ResultLocalSearch resultLocalSearch;
     private List<Vertex> graphVertexes = new ArrayList<>();
     private Integer pathCost = 0;
-    private Integer localSearchPatchCost = 0;
 
 
     public NearestNeighbour(Graph graph) {
         result = new Result();
-        resultLocalSearch = new ResultLocalSearch();
         graphVertexes = graph.getVertexes();
     }
 
@@ -49,16 +46,6 @@ public class NearestNeighbour {
         return notVisited;
     }
 
-    private void fillResultLocalSearch(List<Integer> visitedVertexesIds) {
-        if(resultLocalSearch.getMinValue() == 0 || resultLocalSearch.getMinValue() > localSearchPatchCost) {
-            resultLocalSearch.setMinValue(localSearchPatchCost);
-            resultLocalSearch.setBestSolution(visitedVertexesIds);
-        } else if(resultLocalSearch.getMaxValue() < localSearchPatchCost) {
-            resultLocalSearch.setMaxValue(localSearchPatchCost);
-        }
-        resultLocalSearch.addToAvgValue(localSearchPatchCost);
-    }
-
     private void fillResult(List<Integer> visitedVertexesIds) {
         if(result.getMinValue() == 0 || result.getMinValue() > pathCost) {
             result.setMinValue(pathCost);
@@ -67,6 +54,8 @@ public class NearestNeighbour {
             result.setMaxValue(pathCost);
         }
         result.addToAvgValue(pathCost);
+        result.addToAllSolutions(visitedVertexesIds);
+        result.addToAllPathsCosts(pathCost);
     }
 
     public List<Integer> addLastEdgeCost(Vertex vertex, List<Integer> visitedVertexesIds) {
