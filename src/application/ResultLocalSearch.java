@@ -32,7 +32,7 @@ public class ResultLocalSearch {
     }
 
     public int getAvgValue() {
-        return avgValue;
+        return avgValue/100;
     }
 
     public void setAvgValue(int avgValue) {
