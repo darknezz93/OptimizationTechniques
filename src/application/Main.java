@@ -39,6 +39,11 @@ public class Main {
         System.out.println("Min: " + localSearch.getResult().getMinValue());
         System.out.println("Max: " + localSearch.getResult().getMaxValue());
         System.out.println("Avg: " + localSearch.getResult().getAvgValue());
+        System.out.print("LocalSearchPath: ");
+        for (Integer node : localSearch.getResult().getBestSolution()) {
+            System.out.print(node + ", ");
+        }
+        System.out.println("\nCzas: " + localSearch.getResult().getTime());
 
 
         GraspNN graspNN = new GraspNN(graph);
@@ -61,6 +66,10 @@ public class Main {
         System.out.println("Min: " + localSearch.getResult().getMinValue());
         System.out.println("Max: " + localSearch.getResult().getMaxValue());
         System.out.println("Avg: " + localSearch.getResult().getAvgValue());
+        System.out.print("LocalSearchPath: ");
+        for (Integer node : localSearch.getResult().getBestSolution()) {
+            System.out.print(node + ", ");
+        }
 
 
         GreedyCycle gc = new GreedyCycle(graph);
@@ -83,6 +92,12 @@ public class Main {
         System.out.println("Min: " + localSearch.getResult().getMinValue());
         System.out.println("Max: " + localSearch.getResult().getMaxValue());
         System.out.println("Avg: " + localSearch.getResult().getAvgValue());
+        System.out.print("LocalSearchPath: ");
+        for (Integer node : localSearch.getResult().getBestSolution()) {
+            System.out.print(node + ", ");
+        }
+
+
 
         GraspGreedyCycle graspGreedyCycle = new GraspGreedyCycle(graph);
         graspGreedyCycle.execute();
@@ -104,6 +119,12 @@ public class Main {
         System.out.println("Min: " + localSearch.getResult().getMinValue());
         System.out.println("Max: " + localSearch.getResult().getMaxValue());
         System.out.println("Avg: " + localSearch.getResult().getAvgValue());
+        System.out.print("LocalSearchPath: ");
+        for (Integer node : localSearch.getResult().getBestSolution()) {
+            System.out.print(node + ", ");
+        }
+
+
 
     }
 

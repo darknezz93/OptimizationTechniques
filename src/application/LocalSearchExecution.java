@@ -56,11 +56,10 @@ public class LocalSearchExecution {
                 //System.out.println("Edge: " + edgeSwapMaxGain +"\tVertex: " + vertexSwapMaxGain);
             }
         } while (edgeSwapMaxGain != 0 || vertexSwapMaxGain != 0);
-
+        long endTime = System.nanoTime();
         pathCost = currentLength;
         fillResultLocalSearch(localSearchList);
-        long endTime = System.nanoTime();
-        resultLocalSearch.setTime((endTime - startTime) / 1000000);
+        resultLocalSearch.setTime((endTime - startTime) / 100000);
     }
 
     public ResultLocalSearch getResult() {

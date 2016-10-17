@@ -11,7 +11,7 @@ public class ResultLocalSearch {
     private int minValue;
     private int avgValue;
     private int maxValue;
-    private long time;
+    private double time;
 
     private List<Integer> bestSolution = new ArrayList<>();
 
@@ -51,11 +51,11 @@ public class ResultLocalSearch {
         avgValue += value;
     }
 
-    public long getTime() {
+    public double getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(double time) {
         this.time = time;
     }
 }
