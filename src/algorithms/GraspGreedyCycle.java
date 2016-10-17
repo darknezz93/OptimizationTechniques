@@ -87,8 +87,6 @@ public class GraspGreedyCycle {
         result.addToAllPathsCosts(pathCost);
     }
 
-
-
     public Result getResult() {
         return result;
     }
