@@ -1,5 +1,9 @@
 package application;
 
+import algorithms.EdgeSolution;
+import algorithms.VertexSwaping;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,40 +16,56 @@ public class LocalSearchExecution {
     private List<Integer> input;
 
     private Integer pathCost = 0;
+    private Graph graph;
 
-    LocalSearchExecution(List<Integer> input) {
+    LocalSearchExecution(Graph graph) {
+        this.graph = graph;
         this.resultLocalSearch = new ResultLocalSearch();
-        this.input = input;
     }
 
     private void fillResultLocalSearch(List<Integer> visitedVertexesIds) {
-        if(resultLocalSearch.getMinValue() == 0 || resultLocalSearch.getMinValue() > pathCost) {
+        if (resultLocalSearch.getMinValue() == 0 || resultLocalSearch.getMinValue() > pathCost) {
             resultLocalSearch.setMinValue(pathCost);
             resultLocalSearch.setBestSolution(visitedVertexesIds);
-        } else if(resultLocalSearch.getMaxValue() < pathCost) {
+        } else if (resultLocalSearch.getMaxValue() < pathCost) {
             resultLocalSearch.setMaxValue(pathCost);
         }
         resultLocalSearch.addToAvgValue(pathCost);
     }
 
-    public void execute() {
+    public void execute(List<Integer> inputArray, int currentLength) {
         long startTime = System.nanoTime();
-        /**
-         * TODO
-         *
-         *
-         *
-         *
-         *
-         *
-         *
-         */
+        ArrayList<Integer> localSearchList = new ArrayList<>(inputArray);
+        int edgeSwapMaxGain = 0, vertexSwapMaxGain = 0;
+        do {
+            EdgeSolution es = new EdgeSolution(graph, localSearchList);
+            es.execute();
+            VertexSwaping vertexSwaping = new VertexSwaping(graph, localSearchList);
+            vertexSwaping.execute();
 
+            edgeSwapMaxGain = es.getMaxGain();
+            vertexSwapMaxGain = vertexSwaping.getMaxGain();
+            //edgeSwapMaxGain = 0;
+            if (edgeSwapMaxGain > vertexSwapMaxGain) {
+                es.applyResult(localSearchList);
+                currentLength -= edgeSwapMaxGain;
+                //System.out.println("Edge: " + edgeSwapMaxGain +"\tVertex: " + vertexSwapMaxGain);
+            } else if (vertexSwapMaxGain != 0) {
+                vertexSwaping.applyResult(localSearchList);
+                currentLength -= vertexSwapMaxGain;
+                //System.out.println("Edge: " + edgeSwapMaxGain +"\tVertex: " + vertexSwapMaxGain);
+            }
+        } while (edgeSwapMaxGain != 0 || vertexSwapMaxGain != 0);
+
+        pathCost = currentLength;
+        fillResultLocalSearch(localSearchList);
         long endTime = System.nanoTime();
         resultLocalSearch.setTime((endTime - startTime) / 1000000);
     }
 
-
+    public ResultLocalSearch getResult() {
+        return resultLocalSearch;
+    }
 
 
 }

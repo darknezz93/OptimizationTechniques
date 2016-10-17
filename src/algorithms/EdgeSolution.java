@@ -32,11 +32,13 @@ public class EdgeSolution {
             int firstRightIdx = i == input.size() - 2 ? 1 : i + 2;
             Integer firstLeftEdgeCost = getEdgeCost(input.get(firstLeftIdx), input.get(i));
             Integer firstRightEdgeCost = getEdgeCost(input.get(i + 1), input.get(firstRightIdx));
-            for (int j = 0; j < input.size() - 1; j++) {
+            for (int j = i + 2; j < input.size() - 1; j++) {
                 try {
                     if (Math.abs(i - j) > 2) {
                         int secondLeftIdx = j == 0 ? input.size() - 2 : j - 1;
                         int secondRightIdx = j == input.size() - 2 ? 1 : j + 2;
+                        if((i==0) && (secondRightIdx ==50)){continue;}
+                        if((i==1) && (secondRightIdx ==1)){continue;}
                         Integer secondLeftEdgeCost = getEdgeCost(input.get(secondLeftIdx), input.get(j));
                         Integer secondRightEdgeCost = getEdgeCost(input.get(j + 1), input.get(secondRightIdx));
 

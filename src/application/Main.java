@@ -1,10 +1,12 @@
 package application;
 
-import algorithms.*;
+import algorithms.GraspGreedyCycle;
+import algorithms.GraspNN;
+import algorithms.GreedyCycle;
+import algorithms.NearestNeighbour;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,47 +25,21 @@ public class Main {
         System.out.println("Max: " + nn.getResult().getMaxValue());
         System.out.println("Avg: " + nn.getResult().getAvgValue());
 
-
-
-        ArrayList<Integer> localSearchList = new ArrayList<>(nn.getResult().getAllSolutions().get(30));
-        int currentLength = nn.getResult().getAllPathsCosts().get(30);
-        int edgeSwapMaxGain = 0, vertexSwapMaxGain = 0;
-        do {
-            System.out.print("Path: ");
-            for (Integer node : localSearchList) {
-                System.out.print(node + ", ");
-            }
-            System.out.println();
-            EdgeSolution es = new EdgeSolution(graph, localSearchList);
-            es.execute();
-            VertexSwaping vertexSwaping = new VertexSwaping(graph, localSearchList);
-            vertexSwaping.execute();
-
-            edgeSwapMaxGain = es.getMaxGain();
-            vertexSwapMaxGain = vertexSwaping.getMaxGain();
-            System.out.println("Edge: " + edgeSwapMaxGain + "\tVertex:" + vertexSwapMaxGain);
-            if (edgeSwapMaxGain > vertexSwapMaxGain) {
-                es.applyResult(localSearchList);
-                currentLength -= edgeSwapMaxGain;
-            } else if (vertexSwapMaxGain != 0) {
-                vertexSwaping.applyResult(localSearchList);
-                currentLength -= vertexSwapMaxGain;
-            }
-        } while (edgeSwapMaxGain != 0 || vertexSwapMaxGain != 0);
-
-        System.out.println("Final length: " + currentLength);
-/*
-        NearestNeighbourRandom nnRandom = new NearestNeighbourRandom(graph);
-        nnRandom.execute();
-        System.out.println("\n\nNN_Random: ");
-        System.out.println("Min: " + nnRandom.getResult().getMinValue());
-        System.out.println("Max: " + nnRandom.getResult().getMaxValue());
-        System.out.println("Avg: " + nnRandom.getResult().getAvgValue());
-
         System.out.print("Path: ");
-        for(Integer node : nnRandom.getResult().getBestSolution()) {
+        for (Integer node : nn.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
+
+        LocalSearchExecution localSearch = new LocalSearchExecution(graph);
+        for (int i = 0; i < nn.getResult().getAllSolutions().size(); i++) {
+            localSearch.execute(nn.getResult().getAllSolutions().get(i),
+                    nn.getResult().getAllPathsCosts().get(i));
+        }
+        System.out.println("\nAfter Local Search: ");
+        System.out.println("Min: " + localSearch.getResult().getMinValue());
+        System.out.println("Max: " + localSearch.getResult().getMaxValue());
+        System.out.println("Avg: " + localSearch.getResult().getAvgValue());
+
 
         GraspNN graspNN = new GraspNN(graph);
         graspNN.execute();
@@ -73,9 +49,18 @@ public class Main {
         System.out.println("Avg: " + graspNN.getResult().getAvgValue());
 
         System.out.print("Path: ");
-        for(Integer node : graspNN.getResult().getBestSolution()) {
+        for (Integer node : graspNN.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
+        localSearch = new LocalSearchExecution(graph);
+        for (int i = 0; i < graspNN.getResult().getAllSolutions().size(); i++) {
+            localSearch.execute(graspNN.getResult().getAllSolutions().get(i),
+                    graspNN.getResult().getAllPathsCosts().get(i));
+        }
+        System.out.println("\nAfter Local Search: ");
+        System.out.println("Min: " + localSearch.getResult().getMinValue());
+        System.out.println("Max: " + localSearch.getResult().getMaxValue());
+        System.out.println("Avg: " + localSearch.getResult().getAvgValue());
 
 
         GreedyCycle gc = new GreedyCycle(graph);
@@ -86,9 +71,18 @@ public class Main {
         System.out.println("Avg: " + gc.getResult().getAvgValue());
 
         System.out.print("Path: ");
-        for(Integer node : gc.getResult().getBestSolution()) {
+        for (Integer node : gc.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
+        localSearch = new LocalSearchExecution(graph);
+        for (int i = 0; i < gc.getResult().getAllSolutions().size(); i++) {
+            localSearch.execute(gc.getResult().getAllSolutions().get(i),
+                    gc.getResult().getAllPathsCosts().get(i));
+        }
+        System.out.println("\nAfter Local Search: ");
+        System.out.println("Min: " + localSearch.getResult().getMinValue());
+        System.out.println("Max: " + localSearch.getResult().getMaxValue());
+        System.out.println("Avg: " + localSearch.getResult().getAvgValue());
 
         GraspGreedyCycle graspGreedyCycle = new GraspGreedyCycle(graph);
         graspGreedyCycle.execute();
@@ -98,9 +92,18 @@ public class Main {
         System.out.println("Avg: " + graspGreedyCycle.getResult().getAvgValue());
 
         System.out.print("Path: ");
-        for(Integer node : graspGreedyCycle.getResult().getBestSolution()) {
+        for (Integer node : graspGreedyCycle.getResult().getBestSolution()) {
             System.out.print(node + ", ");
-        }*/
+        }
+        localSearch = new LocalSearchExecution(graph);
+        for (int i = 0; i < graspGreedyCycle.getResult().getAllSolutions().size(); i++) {
+            localSearch.execute(graspGreedyCycle.getResult().getAllSolutions().get(i),
+                    graspGreedyCycle.getResult().getAllPathsCosts().get(i));
+        }
+        System.out.println("\nAfter Local Search: ");
+        System.out.println("Min: " + localSearch.getResult().getMinValue());
+        System.out.println("Max: " + localSearch.getResult().getMaxValue());
+        System.out.println("Avg: " + localSearch.getResult().getAvgValue());
 
     }
 
