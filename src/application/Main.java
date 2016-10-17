@@ -43,7 +43,7 @@ public class Main {
         for (Integer node : localSearch.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
-        System.out.println("\nCzas: " + localSearch.getResult().getTime());
+        System.out.println("\nCzas: " + localSearch.getResult().getBestTime() + " ms");
 
 
         GraspNN graspNN = new GraspNN(graph);
@@ -70,6 +70,7 @@ public class Main {
         for (Integer node : localSearch.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
+        System.out.println("\nCzas: " + localSearch.getResult().getBestTime() + " ms");
 
 
         GreedyCycle gc = new GreedyCycle(graph);
@@ -96,6 +97,8 @@ public class Main {
         for (Integer node : localSearch.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
+        System.out.println("\nCzas: " + localSearch.getResult().getBestTime() + " ms");
+
 
 
 
@@ -123,6 +126,8 @@ public class Main {
         for (Integer node : localSearch.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
+        System.out.println("\nCzas: " + localSearch.getResult().getBestTime() + " ms");
+
 
 
 

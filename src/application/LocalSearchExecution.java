@@ -23,7 +23,8 @@ public class LocalSearchExecution {
         this.resultLocalSearch = new ResultLocalSearch();
     }
 
-    private void fillResultLocalSearch(List<Integer> visitedVertexesIds) {
+    private void fillResultLocalSearch(List<Integer> visitedVertexesIds, double bestTime) {
+        resultLocalSearch.setBestTime(bestTime);
         if (resultLocalSearch.getMinValue() == 0 || resultLocalSearch.getMinValue() > pathCost) {
             resultLocalSearch.setMinValue(pathCost);
             resultLocalSearch.setBestSolution(visitedVertexesIds);
@@ -34,14 +35,18 @@ public class LocalSearchExecution {
     }
 
     public void execute(List<Integer> inputArray, int currentLength) {
-        long startTime = System.nanoTime();
         ArrayList<Integer> localSearchList = new ArrayList<>(inputArray);
         int edgeSwapMaxGain = 0, vertexSwapMaxGain = 0;
+        long startTime;
+        long endTime;
+        double bestTime;
         do {
             EdgeSolution es = new EdgeSolution(graph, localSearchList);
+            startTime = System.nanoTime();
             es.execute();
             VertexSwaping vertexSwaping = new VertexSwaping(graph, localSearchList);
             vertexSwaping.execute();
+            endTime = System.nanoTime();
 
             edgeSwapMaxGain = es.getMaxGain();
             vertexSwapMaxGain = vertexSwaping.getMaxGain();
@@ -55,11 +60,11 @@ public class LocalSearchExecution {
                 currentLength -= vertexSwapMaxGain;
                 //System.out.println("Edge: " + edgeSwapMaxGain +"\tVertex: " + vertexSwapMaxGain);
             }
+            bestTime = (double)(endTime - startTime)/ 100000 ;
         } while (edgeSwapMaxGain != 0 || vertexSwapMaxGain != 0);
-        long endTime = System.nanoTime();
+
         pathCost = currentLength;
-        fillResultLocalSearch(localSearchList);
-        resultLocalSearch.setTime((endTime - startTime) / 100000);
+        fillResultLocalSearch(localSearchList, bestTime);
     }
 
     public ResultLocalSearch getResult() {

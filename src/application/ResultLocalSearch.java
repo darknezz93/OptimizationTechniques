@@ -1,5 +1,6 @@
 package application;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class ResultLocalSearch {
     private int minValue;
     private int avgValue;
     private int maxValue;
-    private double time;
+    private double bestTime;
 
     private List<Integer> bestSolution = new ArrayList<>();
 
@@ -51,11 +52,11 @@ public class ResultLocalSearch {
         avgValue += value;
     }
 
-    public double getTime() {
-        return time;
+    public double getBestTime() {
+        return bestTime;
     }
 
-    public void setTime(double time) {
-        this.time = time;
+    public void setBestTime(double bestTime) {
+        this.bestTime = bestTime;
     }
 }
