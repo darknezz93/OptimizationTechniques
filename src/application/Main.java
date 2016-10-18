@@ -1,10 +1,5 @@
 package application;
 
-import algorithms.GraspGreedyCycle;
-import algorithms.GraspNN;
-import algorithms.GreedyCycle;
-import algorithms.NearestNeighbour;
-
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.util.List;
@@ -18,7 +13,11 @@ public class Main {
         AlgorithmService as = new AlgorithmService();
         Graph graph = as.getGraphFromFile("data" + File.separator + "kroA100.xml");
 
-        NearestNeighbour nn = new NearestNeighbour(graph);
+        MultipleLocalSearchExecution multipleLocalSearchExecution = new MultipleLocalSearchExecution(graph);
+        multipleLocalSearchExecution.execute();
+        System.out.print(multipleLocalSearchExecution.pathCost);
+
+        /*NearestNeighbour nn = new NearestNeighbour(graph);
         nn.execute();
         System.out.println("NN: ");
         System.out.println("Min: " + nn.getResult().getMinValue());
@@ -130,7 +129,7 @@ public class Main {
 
 
 
-
+*/
     }
 
     public static void parseEdges(List<Integer> result) {
