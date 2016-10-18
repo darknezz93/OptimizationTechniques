@@ -1,5 +1,6 @@
 package application;
 
+import algorithms.GraspGreedyCycle;
 import algorithms.GraspNN;
 import algorithms.NearestNeighbour;
 import algorithms.NearestNeighbourRandom;
@@ -28,8 +29,13 @@ public class MultipleLocalSearchExecution {
          *
          */
 
+        long startTime;
+        long stopTime;
+        double time;
+
+        startTime = System.nanoTime();
         for (int i = 0; i < 10; i++) {
-            NearestNeighbourRandom graspNN = new NearestNeighbourRandom(graph);
+            GraspGreedyCycle graspNN = new GraspGreedyCycle(graph);
             graspNN.execute();
             System.out.println("Min: " + graspNN.getResult().getMinValue());
             LocalSearchExecution localSearch = new LocalSearchExecution(graph);
@@ -43,6 +49,10 @@ public class MultipleLocalSearchExecution {
                 }
             }
         }
+        stopTime = System.nanoTime();
+        time = (double)(stopTime - startTime)/ 1000000000 ;
+        System.out.println("Time: " + time + " s");
+        result.setBestTime(time);
     }
 
     private void fillResult(List<Integer> solution) {
