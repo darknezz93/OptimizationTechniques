@@ -13,9 +13,15 @@ public class Main {
         AlgorithmService as = new AlgorithmService();
         Graph graph = as.getGraphFromFile("data" + File.separator + "kroA100.xml");
 
-        MultipleLocalSearchExecution multipleLocalSearchExecution = new MultipleLocalSearchExecution(graph);
-        multipleLocalSearchExecution.execute();
-        System.out.print(multipleLocalSearchExecution.pathCost);
+        MultipleLocalSearchExecution multipleLocalSearch = new MultipleLocalSearchExecution(graph);
+        multipleLocalSearch.execute();
+        System.out.println("Avg time: " + multipleLocalSearch.getResult().getAvgTime() + " s");
+        System.out.println("Max time: " + multipleLocalSearch.getResult().getMaxTime() + " s");
+        System.out.println("Best time : " + multipleLocalSearch.getResult().getBestTime() + " s");
+        System.out.println("Best solution: " + multipleLocalSearch.getResult().getBestSolution());
+        System.out.println("Min path cost: " + multipleLocalSearch.getResult().getMinValue());
+        System.out.println("Avg path cost: " + multipleLocalSearch.getResult().getAvgValue());
+        System.out.println("Max path cost: " + multipleLocalSearch.getResult().getMaxValue());
 
         /*NearestNeighbour nn = new NearestNeighbour(graph);
         nn.execute();

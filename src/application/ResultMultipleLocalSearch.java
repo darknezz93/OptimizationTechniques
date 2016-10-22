@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -8,12 +9,10 @@ import java.util.List;
  */
 public class ResultMultipleLocalSearch {
 
-    private int minValue;
+    private int minValue = Integer.MAX_VALUE;
     private int avgValue;
     private int maxValue;
-    private double bestTime;
-    private double avgTime;
-    private double maxTime;
+    private List<Double> times = new ArrayList<>();
 
     private List<Integer> bestSolution = new ArrayList<>();
 
@@ -34,11 +33,11 @@ public class ResultMultipleLocalSearch {
     }
 
     public int getAvgValue() {
-        return avgValue/100;
+        return avgValue/10;
     }
 
-    public void setAvgValue(int avgValue) {
-        this.avgValue = avgValue;
+    public void addToAvgValue(int value) {
+        this.avgValue += value;
     }
 
     public int getMaxValue() {
@@ -49,31 +48,20 @@ public class ResultMultipleLocalSearch {
         this.maxValue = maxValue;
     }
 
-    public void addToAvgValue(Integer value) {
-        avgValue += value;
+    public void addToTimes(Double value) {
+        times.add(value);
     }
 
     public double getBestTime() {
-        return bestTime;
-    }
-
-    public void setBestTime(double bestTime) {
-        this.bestTime = bestTime;
+        return Collections.min(times);
     }
 
     public double getAvgTime() {
-        return avgTime;
-    }
-
-    public void setAvgTime(double avgTime) {
-        this.avgTime = avgTime;
+        return times.stream().mapToDouble(val -> val).average().getAsDouble();
     }
 
     public double getMaxTime() {
-        return maxTime;
+        return Collections.max(times);
     }
 
-    public void setMaxTime(double maxTime) {
-        this.maxTime = maxTime;
-    }
 }
