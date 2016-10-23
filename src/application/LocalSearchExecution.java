@@ -50,19 +50,27 @@ public class LocalSearchExecution {
 
             edgeSwapMaxGain = es.getMaxGain();
             vertexSwapMaxGain = vertexSwaping.getMaxGain();
+            //vertexSwapMaxGain=0;
             //edgeSwapMaxGain = 0;
             if (edgeSwapMaxGain > vertexSwapMaxGain) {
                 es.applyResult(localSearchList);
                 currentLength -= edgeSwapMaxGain;
+                //printList(localSearchList);
                 //System.out.println("Edge: " + edgeSwapMaxGain +"\tVertex: " + vertexSwapMaxGain);
             } else if (vertexSwapMaxGain != 0) {
                 vertexSwaping.applyResult(localSearchList);
                 currentLength -= vertexSwapMaxGain;
+                //printList(localSearchList);
                 //System.out.println("Edge: " + edgeSwapMaxGain +"\tVertex: " + vertexSwapMaxGain);
             }
-            bestTime = (double)(endTime - startTime)/ 100000 ;
+            bestTime = (double) (endTime - startTime) / 100000;
         } while (edgeSwapMaxGain != 0 || vertexSwapMaxGain != 0);
 
+        int s = EdgeSolution.calculatePathLength(graph, localSearchList);
+        if (s != currentLength) {
+            //System.out.println("TEST AFTER SWAP: " + currentLength + "\t" +s);
+            throw new IllegalStateException("COMPUTED LENGTH NOT MATCH: " + currentLength + "\t" +s);
+        }
         pathCost = currentLength;
         fillResultLocalSearch(localSearchList, bestTime);
     }
@@ -71,5 +79,11 @@ public class LocalSearchExecution {
         return resultLocalSearch;
     }
 
-
+    public static void printList(List<Integer> list){
+        System.out.print("Path: ");
+        for (Integer node : list) {
+            System.out.print(node + ", ");
+        }
+        System.out.println();
+    }
 }
