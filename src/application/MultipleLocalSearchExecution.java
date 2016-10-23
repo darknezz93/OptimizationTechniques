@@ -22,8 +22,6 @@ public class MultipleLocalSearchExecution {
     }
 
     public void execute() {
-        List<SingleMultipleLocalSearchResult> singleResults = new ArrayList<>();
-
         for (int i = 0; i < 10; i++) {
             SingleMultipleLocalSearchResult singleResult = executeSingleMultipleLocalSearch();
             updateResult(singleResult);
