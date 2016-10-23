@@ -13,7 +13,7 @@ public class Main {
         AlgorithmService as = new AlgorithmService();
         Graph graph = as.getGraphFromFile("data" + File.separator + "kroA100.xml");
 
-        MultipleLocalSearchExecution multipleLocalSearch = new MultipleLocalSearchExecution(graph);
+        /*MultipleLocalSearchExecution multipleLocalSearch = new MultipleLocalSearchExecution(graph);
         multipleLocalSearch.execute();
         System.out.println("Avg time: " + multipleLocalSearch.getResult().getAvgTime() + " s");
         System.out.println("Max time: " + multipleLocalSearch.getResult().getMaxTime() + " s");
@@ -21,7 +21,16 @@ public class Main {
         System.out.println("Best solution: " + multipleLocalSearch.getResult().getBestSolution());
         System.out.println("Min path cost: " + multipleLocalSearch.getResult().getMinValue());
         System.out.println("Avg path cost: " + multipleLocalSearch.getResult().getAvgValue());
-        System.out.println("Max path cost: " + multipleLocalSearch.getResult().getMaxValue());
+        System.out.println("Max path cost: " + multipleLocalSearch.getResult().getMaxValue());*/
+
+        System.out.println("\nIterated local search: "); //10518
+        IteratedLocalSearch iteratedLocalSearch = new IteratedLocalSearch(graph, 16.46137448 /*multipleLocalSearch.getResult().getAvgTime()*/);
+        iteratedLocalSearch.execute();
+        System.out.println("Best solution: " + iteratedLocalSearch.getResult().getBestSolution());
+        System.out.println("Min path cost: " + iteratedLocalSearch.getResult().getMinValue());
+        System.out.println("Avg path cost: " + iteratedLocalSearch.getResult().getAvgValue());
+        System.out.println("Max path cost: " + iteratedLocalSearch.getResult().getMaxValue());
+
 
         /*NearestNeighbour nn = new NearestNeighbour(graph);
         nn.execute();

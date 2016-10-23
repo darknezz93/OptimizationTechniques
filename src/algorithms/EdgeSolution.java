@@ -23,9 +23,6 @@ public class EdgeSolution {
     }
 
     public void execute() {
-        //Random random = new Random();
-        //int randIdx1 = random.nextInt(input.size());
-        //int randIdx2 = random.nextInt(input.size());
 
         for (int i = 0; i < input.size() - 1; i++) {
             int firstLeftIdx = i == 0 ? input.size() - 2 : i - 1;

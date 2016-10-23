@@ -4,6 +4,7 @@ import application.Graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Kamil on 2016-10-16.
@@ -13,6 +14,7 @@ public class VertexSwaping {
     private final List<Integer> unusedVertices;
     private Graph graph;
     private List<Integer> input;
+    private Random random;
 
     private int maxGain;
     private int sourceVertexIndex;
@@ -22,6 +24,7 @@ public class VertexSwaping {
     public VertexSwaping(Graph graph, List<Integer> input) {
         this.graph = graph;
         this.input = input;
+        this.random = new Random();
         this.unusedVertices = createUnusedVerticesList(input);
     }
 
@@ -57,6 +60,32 @@ public class VertexSwaping {
                 }
             }
         }
+    }
+
+    public List<Integer> executeRandomStep() {
+        int i = random.nextInt(input.size()-1);
+        int leftVertexIndex = i == 0 ? input.size() - 2 : i - 1;
+        int rightVertexIndex = i == input.size() - 2 ? 0 : i + 1;
+        Integer leftEdgeCost = getEdgeCost(input.get(leftVertexIndex), input.get(i));
+        Integer rightEdgeCost = getEdgeCost(input.get(i), input.get(rightVertexIndex));
+
+        for (int j = 0; j < unusedVertices.size(); j++) {
+            Integer newLeftEdgeCost = getEdgeCost(input.get(leftVertexIndex), unusedVertices.get(j));
+            Integer newRightEdgeCost = getEdgeCost(unusedVertices.get(j), input.get(rightVertexIndex));
+
+            if (leftEdgeCost + rightEdgeCost > newLeftEdgeCost + newRightEdgeCost) {
+                int gain = leftEdgeCost + rightEdgeCost - (newLeftEdgeCost + newRightEdgeCost);
+                if (gain > maxGain) {
+                    maxGain = gain;
+                    sourceVertexIndex = i;
+                    newVertexIndex = j;
+                }
+            }
+        }
+        if(maxGain != 0) {
+            applyResult(input);
+        }
+        return input;
     }
 
     private Integer getEdgeCost(int vertexId1, int vertexId2) {
