@@ -61,12 +61,7 @@ public class IteratedLocalSearch {
 
             Perturbation perturbation = new Perturbation(singleResult.getBestSolution(), singleResult.getPathCost());
 
-            try {
-                localSearch.execute(perturbation.getSolution(), perturbation.getPathCost());
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-
+            localSearch.execute(perturbation.getSolution(), perturbation.getPathCost());
 
             if(localSearch.getResult().getMinValue() < singleResult.getPathCost() && localSearch.getResult().getMinValue() != 0) {
                 singleResult.setBestSolution(localSearch.getResult().getBestSolution());

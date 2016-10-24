@@ -3,7 +3,11 @@ package algorithms;
 import application.Graph;
 import sun.plugin.dom.exception.InvalidStateException;
 
+import java.util.Collections;
 import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by inf113149 on 11.10.2016.
@@ -36,58 +40,17 @@ public class EdgeSolution {
             int firstEdgeX = input.get(i);
             int firstEdgeY = getVertexAfter(firstEdgeX, input);
             int firstEdgeLeft = getVertexBefore(firstEdgeX, input);
-            int firstEdgeRight = getVertexAfter(firstEdgeY, input);
             for (int j = i + 1; j < input.size() - 1; j++) {
                 int secondEdgeX = input.get(j);
                 int secondEdgeY = getVertexAfter(secondEdgeX, input);
-                int secondEdgeLeft = getVertexBefore(secondEdgeX, input);
-                int secondEdgeRight = getVertexAfter(secondEdgeY, input);
                 int cost = 0, newCost = 0;
-                if (!areEdgesSeparated(firstEdgeX, firstEdgeY, secondEdgeX, secondEdgeY)) {
-                    if (firstEdgeY == secondEdgeX) {
-                        cost = getEdgeCost(firstEdgeLeft, firstEdgeX) +
-                                getEdgeCost(firstEdgeX, firstEdgeY) +
-                                getEdgeCost(secondEdgeX, secondEdgeY) +
-                                getEdgeCost(secondEdgeY, secondEdgeRight);
-
-                        newCost = getEdgeCost(firstEdgeLeft, secondEdgeY) +
-                                getEdgeCost(secondEdgeY, secondEdgeX) +
-                                getEdgeCost(firstEdgeY, firstEdgeX) +
-                                getEdgeCost(firstEdgeX, secondEdgeRight);
-
-                    } else if (secondEdgeY == firstEdgeX) {
-                        cost = getEdgeCost(secondEdgeLeft, secondEdgeX) +
-                                getEdgeCost(secondEdgeX, secondEdgeY) +
-                                getEdgeCost(firstEdgeX, firstEdgeY) +
-                                getEdgeCost(firstEdgeY, firstEdgeRight);
-
-                        newCost = getEdgeCost(secondEdgeLeft, firstEdgeY) +
-                                getEdgeCost(firstEdgeY, firstEdgeX) +
-                                getEdgeCost(secondEdgeY, secondEdgeX) +
-                                getEdgeCost(secondEdgeX, firstEdgeRight);
-
-                    }
-                } else if (firstEdgeRight == secondEdgeX) {
-                    cost = getEdgeCost(firstEdgeLeft, firstEdgeX) +
-                            getEdgeCost(firstEdgeY, secondEdgeX) +
-                            getEdgeCost(secondEdgeY, secondEdgeRight);
-
-                    newCost = getEdgeCost(firstEdgeLeft, secondEdgeX) +
-                            getEdgeCost(secondEdgeY, firstEdgeX) +
-                            getEdgeCost(firstEdgeY, secondEdgeRight);
-                } else if (firstEdgeLeft == secondEdgeY) {
-                    cost = getEdgeCost(secondEdgeLeft, secondEdgeX) +
-                            getEdgeCost(secondEdgeY, firstEdgeX) +
-                            getEdgeCost(firstEdgeY, firstEdgeRight);
-
-                    newCost = getEdgeCost(secondEdgeLeft, firstEdgeX) +
-                            getEdgeCost(firstEdgeY, secondEdgeX) +
-                            getEdgeCost(secondEdgeY, firstEdgeRight);
+                if (firstEdgeX == secondEdgeX || firstEdgeLeft == secondEdgeX || firstEdgeY == secondEdgeY) {
+                    continue;
                 } else {
-                    int firstEdgeCost = getEdgeCost(firstEdgeLeft, firstEdgeX) + getEdgeCost(firstEdgeY, firstEdgeRight);
-                    int secondEdgeCost = getEdgeCost(secondEdgeLeft, secondEdgeX) + getEdgeCost(secondEdgeY, secondEdgeRight);
-                    int newFirstEdgeCost = getEdgeCost(firstEdgeLeft, secondEdgeX) + getEdgeCost(secondEdgeY, firstEdgeRight);
-                    int newSecondEdgeCost = getEdgeCost(secondEdgeLeft, firstEdgeX) + getEdgeCost(firstEdgeY, secondEdgeRight);
+                    int firstEdgeCost = getEdgeCost(firstEdgeX, firstEdgeY);
+                    int secondEdgeCost = getEdgeCost(secondEdgeX, secondEdgeY);
+                    int newFirstEdgeCost = getEdgeCost(firstEdgeX, secondEdgeX);
+                    int newSecondEdgeCost = getEdgeCost(firstEdgeY, secondEdgeY);
                     cost = firstEdgeCost + secondEdgeCost;
                     newCost = newFirstEdgeCost + newSecondEdgeCost;
                 }
@@ -96,9 +59,7 @@ public class EdgeSolution {
                     if (gain > maxGain) {
                         maxGain = gain;
                         resultFirstEdgeX = firstEdgeX;
-                        resultFirstEdgeY = firstEdgeY;
                         resultSecondEdgeX = secondEdgeX;
-                        resultSecondEdgeY = secondEdgeY;
                     }
                 }
             }
@@ -181,14 +142,16 @@ public class EdgeSolution {
 
     public void applyResult(List<Integer> vertices) {
         vertices.remove(vertices.size() - 1);
-        if (resultFirstEdgeY == resultSecondEdgeX) {
-            replaceElements(vertices, resultFirstEdgeX, resultSecondEdgeY);
-        } else if (resultSecondEdgeY == resultFirstEdgeX) {
-            replaceElements(vertices, resultSecondEdgeX, resultFirstEdgeY);
+        //replaceElements(vertices, resultFirstEdgeX, resultSecondEdgeX);
+        int reverseStartIndex, reverseEndIndex;
+        if(vertices.indexOf(resultFirstEdgeX) < vertices.indexOf(resultSecondEdgeX)) {
+            reverseStartIndex = vertices.indexOf(resultFirstEdgeX) + 1;
+            reverseEndIndex = vertices.indexOf(resultSecondEdgeX) + 1;
         } else {
-            replaceElements(vertices, resultFirstEdgeX, resultSecondEdgeX);
-            replaceElements(vertices, resultFirstEdgeY, resultSecondEdgeY);
+            reverseStartIndex = vertices.indexOf(resultSecondEdgeX) + 1;
+            reverseEndIndex = vertices.indexOf(resultFirstEdgeX) + 1;
         }
+        Collections.reverse(vertices.subList(reverseStartIndex, reverseEndIndex));
         vertices.add(vertices.get(0));
     }
 
