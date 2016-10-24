@@ -1,5 +1,8 @@
 package application;
 
+import algorithms.GraspGreedyCycle;
+import algorithms.GraspNN;
+
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.util.List;
@@ -24,7 +27,7 @@ public class Main {
         System.out.println("Max path cost: " + multipleLocalSearch.getResult().getMaxValue());*/
 
         System.out.println("\nIterated local search: "); //10518
-        IteratedLocalSearch iteratedLocalSearch = new IteratedLocalSearch(graph, 16.46137448 /*multipleLocalSearch.getResult().getAvgTime()*/);
+        IteratedLocalSearch iteratedLocalSearch = new IteratedLocalSearch(graph, 27.370860393 /*multipleLocalSearch.getResult().getAvgTime()*/);
         iteratedLocalSearch.execute();
         System.out.println("Best solution: " + iteratedLocalSearch.getResult().getBestSolution());
         System.out.println("Min path cost: " + iteratedLocalSearch.getResult().getMinValue());
@@ -140,11 +143,11 @@ public class Main {
         for (Integer node : localSearch.getResult().getBestSolution()) {
             System.out.print(node + ", ");
         }
-        System.out.println("\nCzas: " + localSearch.getResult().getBestTime() + " ms");
+        System.out.println("\nCzas: " + localSearch.getResult().getBestTime() + " ms");*/
 
 
 
-*/
+
     }
 
     public static void parseEdges(List<Integer> result) {

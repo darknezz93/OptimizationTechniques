@@ -1,5 +1,6 @@
 package application;
 
+import algorithms.EdgeSolution;
 import algorithms.GraspNN;
 import algorithms.VertexSwaping;
 
@@ -60,7 +61,12 @@ public class IteratedLocalSearch {
 
             Perturbation perturbation = new Perturbation(singleResult.getBestSolution(), singleResult.getPathCost());
 
-            localSearch.execute(perturbation.getSolution(), perturbation.getPathCost());
+            try {
+                localSearch.execute(perturbation.getSolution(), perturbation.getPathCost());
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
 
             if(localSearch.getResult().getMinValue() < singleResult.getPathCost() && localSearch.getResult().getMinValue() != 0) {
                 singleResult.setBestSolution(localSearch.getResult().getBestSolution());
@@ -102,15 +108,15 @@ public class IteratedLocalSearch {
                 if(random.nextBoolean()) {
                     VertexSwaping vertexSwaping = new VertexSwaping(graph, currentSolution);
                     solution = vertexSwaping.executeRandomStep();
-                    pathCost -= vertexSwaping.getMaxGain();
-
+                    currentCost = vertexSwaping.getSinglePathCost();
                 } else {
-                    VertexSwaping vertexSwaping = new VertexSwaping(graph, currentSolution);
-                    solution = vertexSwaping.executeRandomStep();
-                    pathCost -= vertexSwaping.getMaxGain();
+                    EdgeSolution edgeSolution = new EdgeSolution(graph, currentSolution);
+                    solution = edgeSolution.executeRandomStep();
+                    currentCost = edgeSolution.getSinglePathCost();
                 }
                 currentSolution = solution;
             }
+            pathCost = currentCost;
         }
 
         public int getPathCost() {

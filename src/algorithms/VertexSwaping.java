@@ -1,8 +1,10 @@
 package algorithms;
 
 import application.Graph;
+import application.Vertex;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -19,6 +21,7 @@ public class VertexSwaping {
     private int maxGain;
     private int sourceVertexIndex;
     private int newVertexIndex;
+    private int singlePathCost;
 
 
     public VertexSwaping(Graph graph, List<Integer> input) {
@@ -63,29 +66,29 @@ public class VertexSwaping {
     }
 
     public List<Integer> executeRandomStep() {
-        int i = random.nextInt(input.size()-1);
-        int leftVertexIndex = i == 0 ? input.size() - 2 : i - 1;
-        int rightVertexIndex = i == input.size() - 2 ? 0 : i + 1;
-        Integer leftEdgeCost = getEdgeCost(input.get(leftVertexIndex), input.get(i));
-        Integer rightEdgeCost = getEdgeCost(input.get(i), input.get(rightVertexIndex));
-
-        for (int j = 0; j < unusedVertices.size(); j++) {
-            Integer newLeftEdgeCost = getEdgeCost(input.get(leftVertexIndex), unusedVertices.get(j));
-            Integer newRightEdgeCost = getEdgeCost(unusedVertices.get(j), input.get(rightVertexIndex));
-
-            if (leftEdgeCost + rightEdgeCost > newLeftEdgeCost + newRightEdgeCost) {
-                int gain = leftEdgeCost + rightEdgeCost - (newLeftEdgeCost + newRightEdgeCost);
-                if (gain > maxGain) {
-                    maxGain = gain;
-                    sourceVertexIndex = i;
-                    newVertexIndex = j;
-                }
-            }
+        int i = 0;
+        while(i == 0) {
+            i = random.nextInt(input.size()-1);
         }
-        if(maxGain != 0) {
-            applyResult(input);
-        }
+        int j = getSecondRandomVertexId(i);
+
+        Collections.swap(input, i,  j);
+
+        this.singlePathCost = EdgeSolution.calculatePathLength(graph, input);
         return input;
+    }
+
+    public int getSecondRandomVertexId(int firstVertexId) {
+        int secondVertexId = firstVertexId;
+
+        while(secondVertexId == firstVertexId || secondVertexId == 0) {
+            secondVertexId = random.nextInt(unusedVertices.size()-1);
+        }
+        return secondVertexId;
+    }
+
+    public int getSinglePathCost() {
+        return singlePathCost;
     }
 
     private Integer getEdgeCost(int vertexId1, int vertexId2) {

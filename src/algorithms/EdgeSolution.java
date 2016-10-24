@@ -3,9 +3,7 @@ package algorithms;
 import application.Graph;
 import sun.plugin.dom.exception.InvalidStateException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by inf113149 on 11.10.2016.
@@ -14,17 +12,20 @@ public class EdgeSolution {
 
     private Graph graph;
     private List<Integer> input;
+    private Random random;
 
     private int maxGain = 0;
     private int resultFirstEdgeX;
     private int resultFirstEdgeY;
     private int resultSecondEdgeX;
     private int resultSecondEdgeY;
+    private int singlePathCost;
 
 
     public EdgeSolution(Graph graph, List<Integer> input) {
         this.graph = graph;
         this.input = input;
+        this.random = new Random();
     }
 
     public void execute() {
@@ -102,7 +103,41 @@ public class EdgeSolution {
                 }
             }
         }
+    }
 
+    public List<Integer> executeRandomStep() {
+        int firstVertexId = 0;
+        while(firstVertexId == 0) {
+            firstVertexId = random.nextInt(input.size()-2);
+        }
+        int secondVertexId = firstVertexId + 1;
+
+        int thirdVertexId = getThirdRandomVertexId(firstVertexId);
+        int fourthVertexId = thirdVertexId + 1;
+
+        //swap
+        Collections.swap(input, firstVertexId,  thirdVertexId);
+        Collections.swap(input, secondVertexId, fourthVertexId);
+
+        this.singlePathCost = EdgeSolution.calculatePathLength(graph, input);
+        return input;
+    }
+
+    public int getThirdRandomVertexId(int firstVertexId) {
+        int thirdVertexId = firstVertexId;
+
+        while((thirdVertexId == firstVertexId
+                || thirdVertexId == firstVertexId+1
+                || thirdVertexId == firstVertexId-1)
+                || thirdVertexId == 0
+                || thirdVertexId == input.size()) {
+            thirdVertexId = random.nextInt(input.size()-2);
+        }
+        return thirdVertexId;
+    }
+
+    public int getSinglePathCost() {
+        return singlePathCost;
     }
 
     private boolean areEdgesSeparated(int firstEdgeX, int firstEdgeY, int secondEdgeX, int secondEdgeY) {
