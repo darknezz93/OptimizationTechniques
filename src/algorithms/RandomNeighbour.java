@@ -9,14 +9,14 @@ import java.util.Random;
 /**
  * Created by adam on 14.10.16.
  */
-public class NearestNeighbourRandom {
+public class RandomNeighbour {
 
     private Result result;
     private List<Vertex> graphVertexes = new ArrayList<>();
     private Integer pathCost = 0;
 
 
-    public NearestNeighbourRandom(Graph graph) {
+    public RandomNeighbour(Graph graph) {
         result = new Result();
         graphVertexes = graph.getVertexes();
     }

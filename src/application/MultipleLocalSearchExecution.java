@@ -1,9 +1,6 @@
 package application;
 
-import algorithms.GraspGreedyCycle;
 import algorithms.GraspNN;
-import algorithms.NearestNeighbour;
-import algorithms.NearestNeighbourRandom;
 
 import java.util.ArrayList;
 import java.util.List;

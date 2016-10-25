@@ -15,7 +15,9 @@ public class Main {
     public static void main(String[] args) throws JAXBException {
         AlgorithmService as = new AlgorithmService();
         Graph graph = as.getGraphFromFile("data" + File.separator + "kroA100.xml");
-
+        SimilarityExecution similarityExecution = new SimilarityExecution(graph);
+        similarityExecution.execute();
+/*
         MultipleLocalSearchExecution multipleLocalSearch = new MultipleLocalSearchExecution(graph);
         multipleLocalSearch.execute();
         System.out.println("Avg time: " + multipleLocalSearch.getResult().getAvgTime() + " s");
@@ -33,7 +35,7 @@ public class Main {
         System.out.println("Min path cost: " + iteratedLocalSearch.getResult().getMinValue());
         System.out.println("Avg path cost: " + iteratedLocalSearch.getResult().getAvgValue());
         System.out.println("Max path cost: " + iteratedLocalSearch.getResult().getMaxValue());
-
+*/
 
         /*NearestNeighbour nn = new NearestNeighbour(graph);
         nn.execute();
