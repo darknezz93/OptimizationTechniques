@@ -3,6 +3,7 @@ package application;
 import algorithms.RandomNeighbour;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,23 +33,42 @@ public class SimilarityExecution {
             }
         }
 
+        int position = pathCosts.indexOf(Collections.min(pathCosts));
+        List<Integer> bestSolution = solutions.get(position);
+
         //VERTEX SIMILARITY ALL
-        List<PlotNode> vertexSimilarityAll = new ArrayList<>();
+        /*List<PlotNode> vertexSimilarityAll = new ArrayList<>();
         for (int i = 0; i < solutions.size(); i++) {
             float averageVertexSimilarity = getAverageVertexSimilarity(solutions.get(i), solutions);
             vertexSimilarityAll.add(new PlotNode(pathCosts.get(i), averageVertexSimilarity));
         }
-        parsePlotNodes(vertexSimilarityAll);
-        //
+        parsePlotNodes(vertexSimilarityAll);*/
+
+        //VERTEX SIMILARITY BEST
+       /* List<PlotNode> vertexSimilarityBest = new ArrayList<>();
+        for (int i = 0; i < solutions.size(); i++) {
+            float similarity = getSimilarVerticesNumber(bestSolution, solutions.get(i));
+            vertexSimilarityBest.add(new PlotNode(pathCosts.get(i), similarity));
+        }
+        parsePlotNodes(vertexSimilarityBest);*/
+
+
 
         //EDGE SIMILARITY ALL
-        List<PlotNode> edgeSimilarityAll = new ArrayList<>();
+       /* List<PlotNode> edgeSimilarityAll = new ArrayList<>();
         for (int i = 0; i < solutions.size(); i++) {
             float averageEdgeSimilarity = getAverageEdgeSimilarity(solutions.get(i), solutions);
             edgeSimilarityAll.add(new PlotNode(pathCosts.get(i), averageEdgeSimilarity));
-        }
+        }*/
         //parsePlotNodes(edgeSimilarityAll);
-        //
+
+        //EDGE SIMILARITY BEST
+        List<PlotNode> edgeSimilarityBest = new ArrayList<>();
+        for (int i = 0; i < solutions.size(); i++) {
+            float similarity = getSimilarEdgesNumber(bestSolution, solutions.get(i));
+            edgeSimilarityBest.add(new PlotNode(pathCosts.get(i), similarity));
+        }
+        parsePlotNodes(edgeSimilarityBest);
 
     }
 
