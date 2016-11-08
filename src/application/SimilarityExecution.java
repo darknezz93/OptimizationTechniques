@@ -1,6 +1,7 @@
 package application;
 
 import algorithms.RandomNeighbour;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +52,6 @@ public class SimilarityExecution {
             vertexSimilarityBest.add(new PlotNode(pathCosts.get(i), similarity));
         }
         parsePlotNodes(vertexSimilarityBest);*/
-
 
 
         //EDGE SIMILARITY ALL
@@ -118,6 +118,32 @@ public class SimilarityExecution {
             }
         }
         return similarEdgesCount;
+    }
+
+    public static List<Integer> getSimilarVerticesList(List<Integer> firstList, List<Integer> secondList) {
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < firstList.size() - 1; i++) {
+            if (secondList.contains(firstList.get(i))) {
+                result.add(firstList.get(i));
+            }
+        }
+        return result;
+    }
+
+    public static List<Pair<Integer, Integer>> getSimilarEdgesList(List<Integer> firstList, List<Integer> secondList) {
+        List<Pair<Integer, Integer>> result = new ArrayList<>();
+        for (int i = 0; i < firstList.size() - 1; i++) {
+            int firstEdgeX = firstList.get(i);
+            int firstEdgeY = firstList.get(i + 1);
+            for (int j = 0; j < secondList.size() - 1; j++) {
+                int secondEdgeX = secondList.get(j);
+                int secondEdgeY = secondList.get(j + 1);
+                if (firstEdgeX == secondEdgeX && firstEdgeY == secondEdgeY) {
+                    result.add(new Pair<>(firstEdgeX, firstEdgeY));
+                }
+            }
+        }
+        return result;
     }
 
     public void parsePlotNodes(List<PlotNode> nodes) {
