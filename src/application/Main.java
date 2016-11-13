@@ -15,8 +15,10 @@ public class Main {
     public static void main(String[] args) throws JAXBException {
         AlgorithmService as = new AlgorithmService();
         Graph graph = as.getGraphFromFile("data" + File.separator + "kroA100.xml");
-        SimilarityExecution similarityExecution = new SimilarityExecution(graph);
-        similarityExecution.execute();
+        Evolution evolution = new Evolution(graph);
+        evolution.execute();
+        /*SimilarityExecution similarityExecution = new SimilarityExecution(graph);
+        similarityExecution.execute();*/
 /*
         MultipleLocalSearchExecution multipleLocalSearch = new MultipleLocalSearchExecution(graph);
         multipleLocalSearch.execute();
