@@ -1,6 +1,7 @@
 package application;
 
 import algorithms.EdgeSolution;
+import algorithms.GraspNN;
 import algorithms.NearestNeighbour;
 import javafx.util.Pair;
 
@@ -19,7 +20,7 @@ public class Evolution {
     }
 
     public void execute() {
-        NearestNeighbour nn = new NearestNeighbour(graph);
+        GraspNN nn = new GraspNN(graph);
         nn.execute();
 
         List<Pair<List<Integer>, Integer>> population = new ArrayList<>(20);
@@ -29,7 +30,10 @@ public class Evolution {
             population.add(new Pair<>(ls.getResult().getBestSolution(), ls.getResult().getMinValue()));
         }
         printPopulation(population);
-        for (int i = 0; i < 10000; i++) {
+        long startTime = System.currentTimeMillis();
+        //for (int i = 0; i < 10000; i++) {
+        List<Pair<Integer, Long>> plotValues = new ArrayList<>();
+        while (System.currentTimeMillis() - startTime < 25000) {
             Pair<Integer, Integer> randomIndexes = getRandomIndexes(20);
             Pair<List<Integer>, Integer> firstSolution = population.get(randomIndexes.getKey());
             Pair<List<Integer>, Integer> secondSolution = population.get(randomIndexes.getValue());
@@ -38,11 +42,22 @@ public class Evolution {
             List<Integer> similarVerticesList = SimilarityExecution.getSimilarVerticesList(firstSolution.getKey(), secondSolution.getKey());
 
             Pair<List<Integer>, Integer> combinedSolution = createCombinedSolution(similarEdgesList, similarVerticesList);
+            long time1 = System.currentTimeMillis();
             LocalSearchExecution ls = new LocalSearchExecution(graph);
             ls.execute(combinedSolution.getKey(), combinedSolution.getValue());
+            long time2 = System.currentTimeMillis() - time1;
             updatePopulationIfPossible(population, ls.getResult().getBestSolution(), ls.getResult().getMinValue());
+            plotValues.add(new Pair<>(ls.getResult().getMinValue(), time2));
         }
         printPopulation(population);
+        printPlotValues(plotValues);
+    }
+
+    private void printPlotValues(List<Pair<Integer, Long>> plotValues) {
+        System.out.println("PLOT VALUES");
+        for(Pair<Integer, Long> plotValue : plotValues){
+            System.out.println("" + plotValue.getKey() + "\t" + plotValue.getValue());
+        }
     }
 
     private void updatePopulationIfPossible(List<Pair<List<Integer>, Integer>> population, List<Integer> solution, int solutionPathCost) {
